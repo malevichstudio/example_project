@@ -17,7 +17,7 @@
   "afterOneWeek": "After 1 week",
   "required": "This field is required",
   "currentEmployees": "Current employees",
-  "previousEmployee": "Previous employee",
+  "previousEmployee": "Previous employees",
   "dateFrom": "From {value}",
   "@dateFrom": {
     "placeholders": {
@@ -25,5 +25,8 @@
         "type": "String"
       }
     }
-  }
+  },
+  "swipeLeftToDelete": "Swipe left to delete",
+  "employeeDataDeleted": "Employee data has been deleted",
+  "undo": "Undo"
 }

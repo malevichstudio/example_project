@@ -10,7 +10,6 @@ import 'package:assignment/presentation_payer/common/inputs/date_picker.dart';
 import 'package:assignment/presentation_payer/common/inputs/input_field.dart';
 import 'package:assignment/presentation_payer/common/inputs/modal_bottom_picker.dart';
 import 'package:assignment/presentation_payer/common/text_styles.dart';
-import 'package:assignment/presentation_payer/common/validators/field_validator.dart';
 import 'package:assignment/presentation_payer/edit/cubit/edit_page_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -71,7 +70,9 @@ class _EditPageState extends State<EditPage> {
             ),
             listener: (BuildContext context, EditPageState state) {
               state.mapOrNull(loaded: (state) {
-                _employeeController.text = state.employeeName ?? "";
+                if (_employeeController.text != state.employeeName) {
+                  _employeeController.text = state.employeeName ?? "";
+                }
               });
             },
             builder: (BuildContext context, EditPageState state) {
@@ -95,32 +96,47 @@ class _EditPageState extends State<EditPage> {
                 const SizedBox(
                   height: 24,
                 ),
-                Form(
-                  key: state.form,
-                  child: ASTextFormField(
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 11.5, horizontal: 10),
-                      child: Assets.svg.user.svg(fit: BoxFit.contain),
+                Column(
+                  children: [
+                    ASTextFormField(
+                      prefixIcon: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 11.5, horizontal: 10),
+                        child: Assets.svg.user.svg(fit: BoxFit.contain),
+                      ),
+                      errorText: state.errorEmployeeName,
+                      hintText: AppLocalizations.of(context).employeeName,
+                      controller: _employeeController,
                     ),
-                    hintText: AppLocalizations.of(context).employeeName,
-                    validator: (value) =>
-                        ASFieldRequiredValidator.validateRequired(value, AppLocalizations.of(context)),
-                    controller: _employeeController,
-                  ),
+                  ],
                 ),
                 const SizedBox(
                   height: 23,
                 ),
-                ASModalBottomPicker<ASRoles>(
-                  key: ObjectKey(state.selectedRole),
-                  value: state.selectedRole,
-                  hintText: AppLocalizations.of(context).selectRole,
-                  prefixIcon: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 11, horizontal: 10.5),
-                    child: Assets.icons.briefcase.image(),
-                  ),
-                  options: state.roleOptions,
-                  onSelected: context.read<EditPageCubit>().selectRole,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ASModalBottomPicker<ASRoles>(
+                      key: ObjectKey(state.selectedRole),
+                      value: state.selectedRole,
+                      hintText: AppLocalizations.of(context).selectRole,
+                      prefixIcon: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 11, horizontal: 10.5),
+                        child: Assets.icons.briefcase.image(),
+                      ),
+                      stringError: state.roleError,
+                      options: state.roleOptions,
+                      onSelected: context.read<EditPageCubit>().selectRole,
+                    ),
+                    if (state.roleError != null) ...{
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        state.roleError!,
+                        style: ASTextStyles.errorText,
+                      )
+                    }
+                  ],
                 ),
                 const SizedBox(
                   height: 23,
@@ -129,18 +145,27 @@ class _EditPageState extends State<EditPage> {
                   children: [
                     Expanded(
                       flex: 14,
-                      child: ASDatePicker(
-                        key: ObjectKey(state.startDate.date),
-                        view: ASDatePickerView.requiredStartDate,
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 11.5),
-                          child: Assets.icons.calendar.image(),
-                        ),
-                        hintText: AppLocalizations.of(context).noDate,
-                        initialValue: state.startDate.datePresentationTitle,
-                        initialDate: state.startDate.date,
-                        onDateSaved: (date) =>
-                            context.read<EditPageCubit>().onStartDatePicked(date!, AppLocalizations.of(context)),
+                      child: Column(
+                        children: [
+                          ASDatePicker(
+                            key: ObjectKey(state.startDate.date),
+                            view: ASDatePickerView.requiredStartDate,
+                            prefixIcon: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 11.5),
+                              child: Assets.icons.calendar.image(),
+                            ),
+                            hintText: AppLocalizations.of(context).noDate,
+                            initialValue: state.startDate.datePresentationTitle,
+                            initialDate: state.startDate.date,
+                            onDateSaved: (date) =>
+                                context.read<EditPageCubit>().onStartDatePicked(date!, AppLocalizations.of(context)),
+                          ),
+                          if (state.startDateError != null)
+                            Text(
+                              state.startDateError!,
+                              style: ASTextStyles.errorText,
+                            )
+                        ],
                       ),
                     ),
                     const Spacer(),

@@ -21,10 +21,12 @@ mixin _$EditPageState {
     required TResult Function() initial,
     required TResult Function(
             String? employeeName,
-            GlobalKey<FormState> form,
+            String? errorEmployeeName,
             ASModalBottomPickerOption<ASRoles>? selectedRole,
+            String? roleError,
             List<ASModalBottomPickerOption<ASRoles>> roleOptions,
             ASDate startDate,
+            String? startDateError,
             ASDate? endDate)
         loaded,
   }) =>
@@ -34,10 +36,12 @@ mixin _$EditPageState {
     TResult? Function()? initial,
     TResult? Function(
             String? employeeName,
-            GlobalKey<FormState> form,
+            String? errorEmployeeName,
             ASModalBottomPickerOption<ASRoles>? selectedRole,
+            String? roleError,
             List<ASModalBottomPickerOption<ASRoles>> roleOptions,
             ASDate startDate,
+            String? startDateError,
             ASDate? endDate)?
         loaded,
   }) =>
@@ -47,10 +51,12 @@ mixin _$EditPageState {
     TResult Function()? initial,
     TResult Function(
             String? employeeName,
-            GlobalKey<FormState> form,
+            String? errorEmployeeName,
             ASModalBottomPickerOption<ASRoles>? selectedRole,
+            String? roleError,
             List<ASModalBottomPickerOption<ASRoles>> roleOptions,
             ASDate startDate,
+            String? startDateError,
             ASDate? endDate)?
         loaded,
     required TResult orElse(),
@@ -136,10 +142,12 @@ class _$_EditPageStateInitial implements _EditPageStateInitial {
     required TResult Function() initial,
     required TResult Function(
             String? employeeName,
-            GlobalKey<FormState> form,
+            String? errorEmployeeName,
             ASModalBottomPickerOption<ASRoles>? selectedRole,
+            String? roleError,
             List<ASModalBottomPickerOption<ASRoles>> roleOptions,
             ASDate startDate,
+            String? startDateError,
             ASDate? endDate)
         loaded,
   }) {
@@ -152,10 +160,12 @@ class _$_EditPageStateInitial implements _EditPageStateInitial {
     TResult? Function()? initial,
     TResult? Function(
             String? employeeName,
-            GlobalKey<FormState> form,
+            String? errorEmployeeName,
             ASModalBottomPickerOption<ASRoles>? selectedRole,
+            String? roleError,
             List<ASModalBottomPickerOption<ASRoles>> roleOptions,
             ASDate startDate,
+            String? startDateError,
             ASDate? endDate)?
         loaded,
   }) {
@@ -168,10 +178,12 @@ class _$_EditPageStateInitial implements _EditPageStateInitial {
     TResult Function()? initial,
     TResult Function(
             String? employeeName,
-            GlobalKey<FormState> form,
+            String? errorEmployeeName,
             ASModalBottomPickerOption<ASRoles>? selectedRole,
+            String? roleError,
             List<ASModalBottomPickerOption<ASRoles>> roleOptions,
             ASDate startDate,
+            String? startDateError,
             ASDate? endDate)?
         loaded,
     required TResult orElse(),
@@ -226,10 +238,12 @@ abstract class _$$EditPageStateLoadedCopyWith<$Res> {
   @useResult
   $Res call(
       {String? employeeName,
-      GlobalKey<FormState> form,
+      String? errorEmployeeName,
       ASModalBottomPickerOption<ASRoles>? selectedRole,
+      String? roleError,
       List<ASModalBottomPickerOption<ASRoles>> roleOptions,
       ASDate startDate,
+      String? startDateError,
       ASDate? endDate});
 }
 
@@ -245,10 +259,12 @@ class __$$EditPageStateLoadedCopyWithImpl<$Res>
   @override
   $Res call({
     Object? employeeName = freezed,
-    Object? form = null,
+    Object? errorEmployeeName = freezed,
     Object? selectedRole = freezed,
+    Object? roleError = freezed,
     Object? roleOptions = null,
     Object? startDate = null,
+    Object? startDateError = freezed,
     Object? endDate = freezed,
   }) {
     return _then(_$EditPageStateLoaded(
@@ -256,14 +272,18 @@ class __$$EditPageStateLoadedCopyWithImpl<$Res>
           ? _value.employeeName
           : employeeName // ignore: cast_nullable_to_non_nullable
               as String?,
-      form: null == form
-          ? _value.form
-          : form // ignore: cast_nullable_to_non_nullable
-              as GlobalKey<FormState>,
+      errorEmployeeName: freezed == errorEmployeeName
+          ? _value.errorEmployeeName
+          : errorEmployeeName // ignore: cast_nullable_to_non_nullable
+              as String?,
       selectedRole: freezed == selectedRole
           ? _value.selectedRole
           : selectedRole // ignore: cast_nullable_to_non_nullable
               as ASModalBottomPickerOption<ASRoles>?,
+      roleError: freezed == roleError
+          ? _value.roleError
+          : roleError // ignore: cast_nullable_to_non_nullable
+              as String?,
       roleOptions: null == roleOptions
           ? _value._roleOptions
           : roleOptions // ignore: cast_nullable_to_non_nullable
@@ -272,6 +292,10 @@ class __$$EditPageStateLoadedCopyWithImpl<$Res>
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
               as ASDate,
+      startDateError: freezed == startDateError
+          ? _value.startDateError
+          : startDateError // ignore: cast_nullable_to_non_nullable
+              as String?,
       endDate: freezed == endDate
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
@@ -285,19 +309,23 @@ class __$$EditPageStateLoadedCopyWithImpl<$Res>
 class _$EditPageStateLoaded implements EditPageStateLoaded {
   const _$EditPageStateLoaded(
       {required this.employeeName,
-      required this.form,
+      this.errorEmployeeName,
       required this.selectedRole,
+      this.roleError,
       required final List<ASModalBottomPickerOption<ASRoles>> roleOptions,
       required this.startDate,
+      this.startDateError,
       required this.endDate})
       : _roleOptions = roleOptions;
 
   @override
   final String? employeeName;
   @override
-  final GlobalKey<FormState> form;
+  final String? errorEmployeeName;
   @override
   final ASModalBottomPickerOption<ASRoles>? selectedRole;
+  @override
+  final String? roleError;
   final List<ASModalBottomPickerOption<ASRoles>> _roleOptions;
   @override
   List<ASModalBottomPickerOption<ASRoles>> get roleOptions {
@@ -309,11 +337,13 @@ class _$EditPageStateLoaded implements EditPageStateLoaded {
   @override
   final ASDate startDate;
   @override
+  final String? startDateError;
+  @override
   final ASDate? endDate;
 
   @override
   String toString() {
-    return 'EditPageState.loaded(employeeName: $employeeName, form: $form, selectedRole: $selectedRole, roleOptions: $roleOptions, startDate: $startDate, endDate: $endDate)';
+    return 'EditPageState.loaded(employeeName: $employeeName, errorEmployeeName: $errorEmployeeName, selectedRole: $selectedRole, roleError: $roleError, roleOptions: $roleOptions, startDate: $startDate, startDateError: $startDateError, endDate: $endDate)';
   }
 
   @override
@@ -323,19 +353,32 @@ class _$EditPageStateLoaded implements EditPageStateLoaded {
             other is _$EditPageStateLoaded &&
             (identical(other.employeeName, employeeName) ||
                 other.employeeName == employeeName) &&
-            (identical(other.form, form) || other.form == form) &&
+            (identical(other.errorEmployeeName, errorEmployeeName) ||
+                other.errorEmployeeName == errorEmployeeName) &&
             (identical(other.selectedRole, selectedRole) ||
                 other.selectedRole == selectedRole) &&
+            (identical(other.roleError, roleError) ||
+                other.roleError == roleError) &&
             const DeepCollectionEquality()
                 .equals(other._roleOptions, _roleOptions) &&
             (identical(other.startDate, startDate) ||
                 other.startDate == startDate) &&
+            (identical(other.startDateError, startDateError) ||
+                other.startDateError == startDateError) &&
             (identical(other.endDate, endDate) || other.endDate == endDate));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, employeeName, form, selectedRole,
-      const DeepCollectionEquality().hash(_roleOptions), startDate, endDate);
+  int get hashCode => Object.hash(
+      runtimeType,
+      employeeName,
+      errorEmployeeName,
+      selectedRole,
+      roleError,
+      const DeepCollectionEquality().hash(_roleOptions),
+      startDate,
+      startDateError,
+      endDate);
 
   @JsonKey(ignore: true)
   @override
@@ -350,15 +393,17 @@ class _$EditPageStateLoaded implements EditPageStateLoaded {
     required TResult Function() initial,
     required TResult Function(
             String? employeeName,
-            GlobalKey<FormState> form,
+            String? errorEmployeeName,
             ASModalBottomPickerOption<ASRoles>? selectedRole,
+            String? roleError,
             List<ASModalBottomPickerOption<ASRoles>> roleOptions,
             ASDate startDate,
+            String? startDateError,
             ASDate? endDate)
         loaded,
   }) {
-    return loaded(
-        employeeName, form, selectedRole, roleOptions, startDate, endDate);
+    return loaded(employeeName, errorEmployeeName, selectedRole, roleError,
+        roleOptions, startDate, startDateError, endDate);
   }
 
   @override
@@ -367,15 +412,17 @@ class _$EditPageStateLoaded implements EditPageStateLoaded {
     TResult? Function()? initial,
     TResult? Function(
             String? employeeName,
-            GlobalKey<FormState> form,
+            String? errorEmployeeName,
             ASModalBottomPickerOption<ASRoles>? selectedRole,
+            String? roleError,
             List<ASModalBottomPickerOption<ASRoles>> roleOptions,
             ASDate startDate,
+            String? startDateError,
             ASDate? endDate)?
         loaded,
   }) {
-    return loaded?.call(
-        employeeName, form, selectedRole, roleOptions, startDate, endDate);
+    return loaded?.call(employeeName, errorEmployeeName, selectedRole,
+        roleError, roleOptions, startDate, startDateError, endDate);
   }
 
   @override
@@ -384,17 +431,19 @@ class _$EditPageStateLoaded implements EditPageStateLoaded {
     TResult Function()? initial,
     TResult Function(
             String? employeeName,
-            GlobalKey<FormState> form,
+            String? errorEmployeeName,
             ASModalBottomPickerOption<ASRoles>? selectedRole,
+            String? roleError,
             List<ASModalBottomPickerOption<ASRoles>> roleOptions,
             ASDate startDate,
+            String? startDateError,
             ASDate? endDate)?
         loaded,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(
-          employeeName, form, selectedRole, roleOptions, startDate, endDate);
+      return loaded(employeeName, errorEmployeeName, selectedRole, roleError,
+          roleOptions, startDate, startDateError, endDate);
     }
     return orElse();
   }
@@ -434,17 +483,21 @@ class _$EditPageStateLoaded implements EditPageStateLoaded {
 abstract class EditPageStateLoaded implements EditPageState {
   const factory EditPageStateLoaded(
       {required final String? employeeName,
-      required final GlobalKey<FormState> form,
+      final String? errorEmployeeName,
       required final ASModalBottomPickerOption<ASRoles>? selectedRole,
+      final String? roleError,
       required final List<ASModalBottomPickerOption<ASRoles>> roleOptions,
       required final ASDate startDate,
+      final String? startDateError,
       required final ASDate? endDate}) = _$EditPageStateLoaded;
 
   String? get employeeName;
-  GlobalKey<FormState> get form;
+  String? get errorEmployeeName;
   ASModalBottomPickerOption<ASRoles>? get selectedRole;
+  String? get roleError;
   List<ASModalBottomPickerOption<ASRoles>> get roleOptions;
   ASDate get startDate;
+  String? get startDateError;
   ASDate? get endDate;
   @JsonKey(ignore: true)
   _$$EditPageStateLoadedCopyWith<_$EditPageStateLoaded> get copyWith =>

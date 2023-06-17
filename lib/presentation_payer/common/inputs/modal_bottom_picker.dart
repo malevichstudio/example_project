@@ -15,12 +15,14 @@ class ASModalBottomPicker<T> extends StatelessWidget {
   final ASModalBottomPickerOption<T>? value;
   final Widget? prefixIcon;
   final String hintText;
+  final String? stringError;
   const ASModalBottomPicker(
       {required this.hintText,
       required this.options,
       required this.onSelected,
       required this.value,
       this.prefixIcon,
+      this.stringError,
       Key? key})
       : super(key: key);
 
@@ -38,7 +40,7 @@ class ASModalBottomPicker<T> extends StatelessWidget {
         width: double.infinity,
         height: 40,
         decoration: BoxDecoration(
-          border: Border.all(width: 1, color: ASColors.lightGrey),
+          border: Border.all(width: 1, color: stringError != null ? ASColors.redAccent : ASColors.lightGrey),
           borderRadius: BorderRadius.circular(4),
         ),
         child: Row(

@@ -5,8 +5,9 @@ class EditPageState with _$EditPageState {
   const factory EditPageState.initial() = _EditPageStateInitial;
   const factory EditPageState.loaded({
     required String? employeeName,
-    required GlobalKey<FormState> form,
+    String? errorEmployeeName,
     required ASModalBottomPickerOption<ASRoles>? selectedRole,
+    String? roleError,
     required List<ASModalBottomPickerOption<ASRoles>> roleOptions,
     required ASDate startDate,
     required ASDate? endDate,

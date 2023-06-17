@@ -33,40 +33,64 @@ class EditPageCubit extends Cubit<EditPageState> {
         _dateFormatter.formatDatePicker(date: employee?.endDate, localization: localization);
     return emit(EditPageState.loaded(
       employeeName: employee?.employeeName,
-      selectedRole: roleOptions.firstWhereOrNull((element) => employee?.role == element.value),
+      selectedRole: roleOptions.firstWhereOrNull(
+        (element) => employee?.role == element.value,
+      ),
       roleOptions: roleOptions,
-      form: GlobalKey<FormState>(),
-      endDate: ASDate(datePresentationTitle: endDatePresentationTitle, date: employee?.endDate),
+      endDate: ASDate(
+        datePresentationTitle: endDatePresentationTitle,
+        date: employee?.endDate,
+      ),
       startDate: ASDate(datePresentationTitle: startDatePresentationTitle, date: startDate),
     ));
   }
 
   void selectRole(ASRoles role) {
     state.mapOrNull(
-        loaded: (state) =>
-            emit(state.copyWith(selectedRole: state.roleOptions.firstWhere((element) => element.value == role))));
+      loaded: (state) => emit(
+        state.copyWith(
+          selectedRole: state.roleOptions.firstWhere(
+            (element) => element.value == role,
+          ),
+          roleError: null,
+        ),
+      ),
+    );
   }
 
   void newValueEmployeeName(String value) {
-    state.mapOrNull(loaded: (state) => emit(state.copyWith(employeeName: value)));
+    state.mapOrNull(
+        loaded: (state) =>
+            emit(state.copyWith(errorEmployeeName: value != "" ? null : state.errorEmployeeName, employeeName: value)));
   }
 
   void onStartDatePicked(DateTime startDate, AppLocalizations localization) {
     final startDatePresentationTitle = _dateFormatter.formatDatePicker(date: startDate, localization: localization);
     state.mapOrNull(
-        loaded: (state) => emit(
-            state.copyWith(startDate: ASDate(datePresentationTitle: startDatePresentationTitle, date: startDate))));
+      loaded: (state) => emit(
+        state.copyWith(
+            startDate: ASDate(datePresentationTitle: startDatePresentationTitle, date: startDate),
+            startDateError: null),
+      ),
+    );
   }
 
   void onEndDatePicked(DateTime? endDate, AppLocalizations localization) {
     final startDatePresentationTitle = _dateFormatter.formatDatePicker(date: endDate, localization: localization);
     state.mapOrNull(
-        loaded: (state) =>
-            emit(state.copyWith(endDate: ASDate(datePresentationTitle: startDatePresentationTitle, date: endDate))));
+      loaded: (state) => emit(
+        state.copyWith(
+          endDate: ASDate(
+            datePresentationTitle: startDatePresentationTitle,
+            date: endDate,
+          ),
+        ),
+      ),
+    );
   }
 
   void save({required Function(ASEmployeePresentation) onCreatedEmployee, required BuildContext context}) async {
-    if (_isValid()) {
+    if (_isValid(context)) {
       state.mapOrNull(loaded: (state) async {
         ASEmployee newEmployee;
         if (employee != null) {
@@ -92,10 +116,19 @@ class EditPageCubit extends Cubit<EditPageState> {
     }
   }
 
-  bool _isValid() {
+  bool _isValid(BuildContext context) {
     return state.map(
         loaded: (state) {
-          return state.form.currentState!.validate() && state.selectedRole != null && state.startDate.date != null;
+          final newState = state.copyWith(
+            roleError: state.selectedRole == null ? AppLocalizations.of(context).required : null,
+            errorEmployeeName:
+                state.employeeName == null || state.employeeName == "" ? AppLocalizations.of(context).required : null,
+          );
+          emit(newState);
+          return state.employeeName != null &&
+              state.employeeName != "" &&
+              state.selectedRole != null &&
+              state.startDate.date != null;
         },
         initial: (_EditPageStateInitial value) => false);
   }

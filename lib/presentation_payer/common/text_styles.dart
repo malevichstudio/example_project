@@ -48,4 +48,9 @@ class ASTextStyles {
     fontSize: 12,
     color: ASColors.darkGrey,
   );
+  static final TextStyle errorText = GoogleFonts.roboto(
+    fontWeight: FontWeight.w400,
+    fontSize: 12,
+    color: ASColors.redAccent,
+  );
 }
