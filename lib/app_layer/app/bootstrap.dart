@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:assignment/app_layer/app/app.dart';
 import 'package:assignment/app_layer/app/injection.dart';
+import 'package:assignment/app_layer/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,17 +23,22 @@ class AppBlocObserver extends BlocObserver {
   }
 }
 
-Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
+Future<void> bootstrap() async {
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);
   };
 
   Bloc.observer = const AppBlocObserver();
 
-  configureDependencies();
-
   await runZonedGuarded(
-    () async => runApp(await builder()),
+    () async {
+      WidgetsFlutterBinding.ensureInitialized();
+      final getIt = await configureDependencies();
+      final router = getIt<ASNavigator>();
+      runApp(App(
+        navigator: router,
+      ));
+    },
     (error, stackTrace) => log(error.toString(), stackTrace: stackTrace),
   );
 }

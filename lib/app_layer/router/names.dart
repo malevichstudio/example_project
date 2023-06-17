@@ -13,3 +13,14 @@ extension ASRoutesNamesConverter on ASRoutesNames {
     }
   }
 }
+
+ASRoutesNames getASRoutesNames(String? path) {
+  switch (path) {
+    case "/":
+      return ASRoutesNames.home;
+    case "/edit":
+      return ASRoutesNames.edit;
+    default:
+      throw ('Unknown path: $path');
+  }
+}

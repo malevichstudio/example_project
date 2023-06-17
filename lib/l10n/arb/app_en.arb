@@ -1,0 +1,29 @@
+{
+  "employeeList": "Employee List",
+  "productDesigner": "Product Designer",
+  "flutterDeveloper": "Flutter Developer",
+  "qaTester": "QA Tester",
+  "productOwner": "Product Owner",
+  "noEmployeeFound": "No employee records found",
+  "addEmployeeDetails": "Add Employee Details",
+  "cancel": "Cancel",
+  "save": "Save",
+  "employeeName": "Employee name",
+  "selectRole": "Select role",
+  "today": "Today",
+  "noDate": "No date",
+  "nextMonday": "Next Monday",
+  "nextTuesday": "Next Tuesday",
+  "afterOneWeek": "After 1 week",
+  "required": "This field is required",
+  "currentEmployees": "Current employees",
+  "previousEmployee": "Previous employee",
+  "dateFrom": "From {value}",
+  "@dateFrom": {
+    "placeholders": {
+      "value" :{
+        "type": "String"
+      }
+    }
+  }
+}

@@ -2,31 +2,31 @@ import 'package:assignment/presentation_payer/common/colors.dart';
 import 'package:assignment/presentation_payer/common/text_styles.dart';
 import 'package:flutter/material.dart';
 
-class ASPrimaryButton extends StatefulWidget {
+class ASSecondaryButton extends StatefulWidget {
   final double? width;
   final double? height;
   final String? text;
   final Widget? icon;
   final Function() onPressed;
 
-  const ASPrimaryButton({Key? key, this.text, required this.onPressed, this.icon, this.width, this.height})
+  const ASSecondaryButton({Key? key, this.text, required this.onPressed, this.icon, this.width, this.height})
       : super(key: key);
 
   @override
-  State<ASPrimaryButton> createState() => _ASPrimaryButtonState();
+  State<ASSecondaryButton> createState() => _ASSecondaryButtonState();
 }
 
-class _ASPrimaryButtonState extends State<ASPrimaryButton> {
+class _ASSecondaryButtonState extends State<ASSecondaryButton> {
   @override
   Widget build(BuildContext context) {
     return Material(
       child: InkWell(
-        splashColor: ASColors.secondary.withOpacity(0.1),
+        splashColor: ASColors.primary.withOpacity(0.1),
         onTap: widget.onPressed,
         child: Ink(
           width: widget.width,
           height: widget.height,
-          decoration: BoxDecoration(color: ASColors.primary, borderRadius: BorderRadius.circular(6)),
+          decoration: BoxDecoration(color: ASColors.secondary, borderRadius: BorderRadius.circular(6)),
           child: Container(
             alignment: Alignment.center,
             constraints: const BoxConstraints(
@@ -39,7 +39,7 @@ class _ASPrimaryButtonState extends State<ASPrimaryButton> {
                 if (widget.text != null)
                   Text(
                     widget.text!,
-                    style: ASTextStyles.buttonText,
+                    style: ASTextStyles.buttonText.copyWith(color: ASColors.primary),
                   ),
                 if (widget.icon != null) widget.icon!
               ],

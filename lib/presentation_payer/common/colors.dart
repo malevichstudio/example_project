@@ -7,4 +7,5 @@ class ASColors {
   static const Color darkGrey = Color(0xFF949C9E);
   static const Color redAccent = Color(0xFFF34642);
   static const Color lightGrey = Color(0xFFE5E5E5);
+  static const Color lightBackground = Color(0xFFF2F2F2);
 }
