@@ -67,7 +67,6 @@ class EditPageCubit extends Cubit<EditPageState> {
 
   void onStartDatePicked(DateTime startDate, AppLocalizations localization) {
     final startDatePresentationTitle = _dateFormatter.formatDatePicker(date: startDate, localization: localization);
-    final dateNow = DateTime.now();
     state.mapOrNull(
       loaded: (state) => emit(
         state.copyWith(
