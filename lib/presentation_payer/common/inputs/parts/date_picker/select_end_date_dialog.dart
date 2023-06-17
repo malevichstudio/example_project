@@ -15,8 +15,11 @@ import '../../date_picker.dart';
 
 class ASSelectEndDateDialog extends StatefulWidget {
   final DateTime? initialDate;
+  final DateTime dateTimeAvailableFromPick;
   final Function(DateTime? time) onDateSaved;
-  const ASSelectEndDateDialog({required this.onDateSaved, this.initialDate, Key? key}) : super(key: key);
+  const ASSelectEndDateDialog(
+      {required this.onDateSaved, required this.dateTimeAvailableFromPick, this.initialDate, Key? key})
+      : super(key: key);
 
   @override
   State<ASSelectEndDateDialog> createState() => ASSelectEndDateDialogState();
@@ -60,19 +63,32 @@ class ASSelectEndDateDialogState extends State<ASSelectEndDateDialog> {
       ASCalendarPanelSwitcherOption<_ASButtonOptions>(
         title: AppLocalizations.of(context).today,
         onChanged: _onSelectedOption,
-        isActive: _mappedOption[_ASButtonOptions.today]!.year == widget.initialDate?.year &&
-            _mappedOption[_ASButtonOptions.today]!.month == widget.initialDate?.month &&
-            _mappedOption[_ASButtonOptions.today]!.day == widget.initialDate?.day,
+        isActive: _isEqualDates(first: _mappedOption[_ASButtonOptions.today]!, second: widget.initialDate),
         type: _ASButtonOptions.today,
       ),
     ];
   }
 
+  bool _isEqualDates({
+    required DateTime? first,
+    required DateTime? second,
+  }) {
+    if (first == null && second == null) return false;
+    return first?.year == second?.year && first?.month == second?.month && first?.day == second?.day;
+  }
+
   void _onSelectedOption(_ASButtonOptions option) {
+    _options = _options.map((e) => e.copyWith(isActive: e.type == option)).toList();
     _selectedDate.value = _mappedOption[option];
     if (_mappedOption[option] != null) {
       _focusedDate.value = DateTime(_mappedOption[option]!.year, _mappedOption[option]!.month, 2);
     }
+  }
+
+  void _findOrDisable(DateTime selectedDate) {
+    _options = _options
+        .map((e) => e.copyWith(isActive: _isEqualDates(first: _mappedOption[e.type], second: selectedDate)))
+        .toList();
   }
 
   @override
@@ -89,7 +105,12 @@ class ASSelectEndDateDialogState extends State<ASSelectEndDateDialog> {
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                ASCalendarPanelSwitchers(options: _options),
+                ValueListenableBuilder(
+                  valueListenable: _selectedDate,
+                  builder: (BuildContext context, DateTime? value, Widget? child) {
+                    return ASCalendarPanelSwitchers(key: ValueKey(value), options: _options);
+                  },
+                ),
                 const SizedBox(
                   height: 25,
                 ),
@@ -206,12 +227,16 @@ class ASSelectEndDateDialogState extends State<ASSelectEndDateDialog> {
   Widget _buildDaysCalendar(BuildContext context, DateTime day, DateTime focused) {
     final isDayOfThisMonth = day.month == _focusedDate.value.month;
 
+    final availableToPick = day.year >= widget.dateTimeAvailableFromPick.year &&
+        day.month >= widget.dateTimeAvailableFromPick.month &&
+        (day.month == widget.dateTimeAvailableFromPick.month ? day.day >= widget.dateTimeAvailableFromPick.day : true);
+
     final selectedDateValue = _selectedDate.value;
     final isSelectedDate = selectedDateValue?.year == day.year &&
         selectedDateValue?.month == day.month &&
         selectedDateValue?.day == day.day;
 
-    if (isSelectedDate) {
+    if (isSelectedDate && isDayOfThisMonth) {
       return _buildSelectedDate(day);
     }
 
@@ -222,12 +247,12 @@ class ASSelectEndDateDialogState extends State<ASSelectEndDateDialog> {
       );
     }
 
-    return _buildRegularDate(day);
+    return _buildRegularDate(day, availableToPick: availableToPick);
   }
 
   Widget _buildSelectedDate(DateTime day) {
     return Container(
-      width: 30,
+      constraints: const BoxConstraints(maxWidth: 30),
       alignment: Alignment.center,
       decoration: const BoxDecoration(shape: BoxShape.circle, color: ASColors.primary),
       child: Text(
@@ -237,14 +262,23 @@ class ASSelectEndDateDialogState extends State<ASSelectEndDateDialog> {
     );
   }
 
-  Widget _buildRegularDate(DateTime day) {
-    return Container(
-      width: 30,
-      alignment: Alignment.center,
-      padding: const EdgeInsets.all(5),
-      child: Text(
-        day.day.toString(),
-        style: ASTextStyles.calendarDaysTextStyle,
+  Widget _buildRegularDate(DateTime day, {required bool availableToPick}) {
+    return GestureDetector(
+      onTap: () {
+        if (availableToPick) {
+          _findOrDisable(day);
+          _selectedDate.value = day;
+        }
+      },
+      child: Container(
+        constraints: const BoxConstraints(minWidth: 30),
+        alignment: Alignment.center,
+        padding: const EdgeInsets.all(5),
+        child: Text(
+          day.day.toString(),
+          style:
+              ASTextStyles.calendarDaysTextStyle.copyWith(color: availableToPick ? Colors.black : ASColors.lightGrey),
+        ),
       ),
     );
   }

@@ -27,7 +27,8 @@ mixin _$EditPageState {
             List<ASModalBottomPickerOption<ASRoles>> roleOptions,
             ASDate startDate,
             String? startDateError,
-            ASDate? endDate)
+            ASDate? endDate,
+            DateTime endDateTimeAvailableFromPick)
         loaded,
   }) =>
       throw _privateConstructorUsedError;
@@ -42,7 +43,8 @@ mixin _$EditPageState {
             List<ASModalBottomPickerOption<ASRoles>> roleOptions,
             ASDate startDate,
             String? startDateError,
-            ASDate? endDate)?
+            ASDate? endDate,
+            DateTime endDateTimeAvailableFromPick)?
         loaded,
   }) =>
       throw _privateConstructorUsedError;
@@ -57,7 +59,8 @@ mixin _$EditPageState {
             List<ASModalBottomPickerOption<ASRoles>> roleOptions,
             ASDate startDate,
             String? startDateError,
-            ASDate? endDate)?
+            ASDate? endDate,
+            DateTime endDateTimeAvailableFromPick)?
         loaded,
     required TResult orElse(),
   }) =>
@@ -148,7 +151,8 @@ class _$_EditPageStateInitial implements _EditPageStateInitial {
             List<ASModalBottomPickerOption<ASRoles>> roleOptions,
             ASDate startDate,
             String? startDateError,
-            ASDate? endDate)
+            ASDate? endDate,
+            DateTime endDateTimeAvailableFromPick)
         loaded,
   }) {
     return initial();
@@ -166,7 +170,8 @@ class _$_EditPageStateInitial implements _EditPageStateInitial {
             List<ASModalBottomPickerOption<ASRoles>> roleOptions,
             ASDate startDate,
             String? startDateError,
-            ASDate? endDate)?
+            ASDate? endDate,
+            DateTime endDateTimeAvailableFromPick)?
         loaded,
   }) {
     return initial?.call();
@@ -184,7 +189,8 @@ class _$_EditPageStateInitial implements _EditPageStateInitial {
             List<ASModalBottomPickerOption<ASRoles>> roleOptions,
             ASDate startDate,
             String? startDateError,
-            ASDate? endDate)?
+            ASDate? endDate,
+            DateTime endDateTimeAvailableFromPick)?
         loaded,
     required TResult orElse(),
   }) {
@@ -244,7 +250,8 @@ abstract class _$$EditPageStateLoadedCopyWith<$Res> {
       List<ASModalBottomPickerOption<ASRoles>> roleOptions,
       ASDate startDate,
       String? startDateError,
-      ASDate? endDate});
+      ASDate? endDate,
+      DateTime endDateTimeAvailableFromPick});
 }
 
 /// @nodoc
@@ -266,6 +273,7 @@ class __$$EditPageStateLoadedCopyWithImpl<$Res>
     Object? startDate = null,
     Object? startDateError = freezed,
     Object? endDate = freezed,
+    Object? endDateTimeAvailableFromPick = null,
   }) {
     return _then(_$EditPageStateLoaded(
       employeeName: freezed == employeeName
@@ -300,6 +308,10 @@ class __$$EditPageStateLoadedCopyWithImpl<$Res>
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
               as ASDate?,
+      endDateTimeAvailableFromPick: null == endDateTimeAvailableFromPick
+          ? _value.endDateTimeAvailableFromPick
+          : endDateTimeAvailableFromPick // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -315,7 +327,8 @@ class _$EditPageStateLoaded implements EditPageStateLoaded {
       required final List<ASModalBottomPickerOption<ASRoles>> roleOptions,
       required this.startDate,
       this.startDateError,
-      required this.endDate})
+      required this.endDate,
+      required this.endDateTimeAvailableFromPick})
       : _roleOptions = roleOptions;
 
   @override
@@ -340,10 +353,12 @@ class _$EditPageStateLoaded implements EditPageStateLoaded {
   final String? startDateError;
   @override
   final ASDate? endDate;
+  @override
+  final DateTime endDateTimeAvailableFromPick;
 
   @override
   String toString() {
-    return 'EditPageState.loaded(employeeName: $employeeName, errorEmployeeName: $errorEmployeeName, selectedRole: $selectedRole, roleError: $roleError, roleOptions: $roleOptions, startDate: $startDate, startDateError: $startDateError, endDate: $endDate)';
+    return 'EditPageState.loaded(employeeName: $employeeName, errorEmployeeName: $errorEmployeeName, selectedRole: $selectedRole, roleError: $roleError, roleOptions: $roleOptions, startDate: $startDate, startDateError: $startDateError, endDate: $endDate, endDateTimeAvailableFromPick: $endDateTimeAvailableFromPick)';
   }
 
   @override
@@ -365,7 +380,11 @@ class _$EditPageStateLoaded implements EditPageStateLoaded {
                 other.startDate == startDate) &&
             (identical(other.startDateError, startDateError) ||
                 other.startDateError == startDateError) &&
-            (identical(other.endDate, endDate) || other.endDate == endDate));
+            (identical(other.endDate, endDate) || other.endDate == endDate) &&
+            (identical(other.endDateTimeAvailableFromPick,
+                    endDateTimeAvailableFromPick) ||
+                other.endDateTimeAvailableFromPick ==
+                    endDateTimeAvailableFromPick));
   }
 
   @override
@@ -378,7 +397,8 @@ class _$EditPageStateLoaded implements EditPageStateLoaded {
       const DeepCollectionEquality().hash(_roleOptions),
       startDate,
       startDateError,
-      endDate);
+      endDate,
+      endDateTimeAvailableFromPick);
 
   @JsonKey(ignore: true)
   @override
@@ -399,11 +419,20 @@ class _$EditPageStateLoaded implements EditPageStateLoaded {
             List<ASModalBottomPickerOption<ASRoles>> roleOptions,
             ASDate startDate,
             String? startDateError,
-            ASDate? endDate)
+            ASDate? endDate,
+            DateTime endDateTimeAvailableFromPick)
         loaded,
   }) {
-    return loaded(employeeName, errorEmployeeName, selectedRole, roleError,
-        roleOptions, startDate, startDateError, endDate);
+    return loaded(
+        employeeName,
+        errorEmployeeName,
+        selectedRole,
+        roleError,
+        roleOptions,
+        startDate,
+        startDateError,
+        endDate,
+        endDateTimeAvailableFromPick);
   }
 
   @override
@@ -418,11 +447,20 @@ class _$EditPageStateLoaded implements EditPageStateLoaded {
             List<ASModalBottomPickerOption<ASRoles>> roleOptions,
             ASDate startDate,
             String? startDateError,
-            ASDate? endDate)?
+            ASDate? endDate,
+            DateTime endDateTimeAvailableFromPick)?
         loaded,
   }) {
-    return loaded?.call(employeeName, errorEmployeeName, selectedRole,
-        roleError, roleOptions, startDate, startDateError, endDate);
+    return loaded?.call(
+        employeeName,
+        errorEmployeeName,
+        selectedRole,
+        roleError,
+        roleOptions,
+        startDate,
+        startDateError,
+        endDate,
+        endDateTimeAvailableFromPick);
   }
 
   @override
@@ -437,13 +475,22 @@ class _$EditPageStateLoaded implements EditPageStateLoaded {
             List<ASModalBottomPickerOption<ASRoles>> roleOptions,
             ASDate startDate,
             String? startDateError,
-            ASDate? endDate)?
+            ASDate? endDate,
+            DateTime endDateTimeAvailableFromPick)?
         loaded,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(employeeName, errorEmployeeName, selectedRole, roleError,
-          roleOptions, startDate, startDateError, endDate);
+      return loaded(
+          employeeName,
+          errorEmployeeName,
+          selectedRole,
+          roleError,
+          roleOptions,
+          startDate,
+          startDateError,
+          endDate,
+          endDateTimeAvailableFromPick);
     }
     return orElse();
   }
@@ -482,14 +529,16 @@ class _$EditPageStateLoaded implements EditPageStateLoaded {
 
 abstract class EditPageStateLoaded implements EditPageState {
   const factory EditPageStateLoaded(
-      {required final String? employeeName,
-      final String? errorEmployeeName,
-      required final ASModalBottomPickerOption<ASRoles>? selectedRole,
-      final String? roleError,
-      required final List<ASModalBottomPickerOption<ASRoles>> roleOptions,
-      required final ASDate startDate,
-      final String? startDateError,
-      required final ASDate? endDate}) = _$EditPageStateLoaded;
+          {required final String? employeeName,
+          final String? errorEmployeeName,
+          required final ASModalBottomPickerOption<ASRoles>? selectedRole,
+          final String? roleError,
+          required final List<ASModalBottomPickerOption<ASRoles>> roleOptions,
+          required final ASDate startDate,
+          final String? startDateError,
+          required final ASDate? endDate,
+          required final DateTime endDateTimeAvailableFromPick}) =
+      _$EditPageStateLoaded;
 
   String? get employeeName;
   String? get errorEmployeeName;
@@ -499,6 +548,7 @@ abstract class EditPageStateLoaded implements EditPageState {
   ASDate get startDate;
   String? get startDateError;
   ASDate? get endDate;
+  DateTime get endDateTimeAvailableFromPick;
   @JsonKey(ignore: true)
   _$$EditPageStateLoadedCopyWith<_$EditPageStateLoaded> get copyWith =>
       throw _privateConstructorUsedError;

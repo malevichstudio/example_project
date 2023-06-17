@@ -10,7 +10,9 @@ class EditPageState with _$EditPageState {
     String? roleError,
     required List<ASModalBottomPickerOption<ASRoles>> roleOptions,
     required ASDate startDate,
+    String? startDateError,
     required ASDate? endDate,
+    required DateTime endDateTimeAvailableFromPick,
   }) = EditPageStateLoaded;
 }
 

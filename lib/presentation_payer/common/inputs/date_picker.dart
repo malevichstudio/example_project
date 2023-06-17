@@ -19,6 +19,7 @@ class ASDatePicker extends StatefulWidget {
   final String hintText;
   final String? initialValue;
   final DateTime? initialDate;
+  final DateTime? dateTimeAvailableFromPick;
   final ASDatePickerView view;
   final Function(DateTime?) onDateSaved;
 
@@ -27,6 +28,7 @@ class ASDatePicker extends StatefulWidget {
     required this.onDateSaved,
     required this.view,
     this.prefixIcon,
+    this.dateTimeAvailableFromPick,
     this.initialDate,
     this.initialValue,
     Key? key,
@@ -81,7 +83,12 @@ class _ASDatePickerState extends State<ASDatePicker> {
             widget: ASSelectStartDateDialog(initialDate: _initialDate, onDateSaved: widget.onDateSaved));
       case ASDatePickerView.endDate:
         return getIt<ASNavigator>().showCustomDialog(
-            widget: ASSelectEndDateDialog(initialDate: _initialDate, onDateSaved: widget.onDateSaved));
+          widget: ASSelectEndDateDialog(
+            initialDate: _initialDate,
+            onDateSaved: widget.onDateSaved,
+            dateTimeAvailableFromPick: widget.dateTimeAvailableFromPick!,
+          ),
+        );
     }
   }
 

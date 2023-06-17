@@ -42,6 +42,7 @@ class EditPageCubit extends Cubit<EditPageState> {
         date: employee?.endDate,
       ),
       startDate: ASDate(datePresentationTitle: startDatePresentationTitle, date: startDate),
+      endDateTimeAvailableFromPick: startDate,
     ));
   }
 
@@ -66,11 +67,14 @@ class EditPageCubit extends Cubit<EditPageState> {
 
   void onStartDatePicked(DateTime startDate, AppLocalizations localization) {
     final startDatePresentationTitle = _dateFormatter.formatDatePicker(date: startDate, localization: localization);
+    final dateNow = DateTime.now();
     state.mapOrNull(
       loaded: (state) => emit(
         state.copyWith(
             startDate: ASDate(datePresentationTitle: startDatePresentationTitle, date: startDate),
-            startDateError: null),
+            startDateError: null,
+            endDateTimeAvailableFromPick: _calculateEndDateTimeAvailableFromPick(startDate: startDate),
+            endDate: _calculateEndDate(state: state, startDate: startDate)),
       ),
     );
   }
@@ -131,5 +135,20 @@ class EditPageCubit extends Cubit<EditPageState> {
               state.startDate.date != null;
         },
         initial: (_EditPageStateInitial value) => false);
+  }
+
+  ASDate? _calculateEndDate({required EditPageStateLoaded state, required DateTime startDate}) {
+    if (state.endDate?.date != null && startDate.isBefore(state.endDate!.date!)) {
+      return state.endDate!;
+    }
+    return null;
+  }
+
+  DateTime _calculateEndDateTimeAvailableFromPick({required DateTime startDate}) {
+    final nowDate = DateTime.now();
+    if (startDate.isBefore(nowDate)) {
+      return nowDate;
+    }
+    return startDate;
   }
 }

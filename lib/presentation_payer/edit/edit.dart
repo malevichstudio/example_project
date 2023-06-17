@@ -185,6 +185,7 @@ class _EditPageState extends State<EditPage> {
                         hintText: AppLocalizations.of(context).noDate,
                         initialValue: state.endDate?.datePresentationTitle,
                         initialDate: state.endDate?.date,
+                        dateTimeAvailableFromPick: state.endDateTimeAvailableFromPick,
                       ),
                     ),
                   ],

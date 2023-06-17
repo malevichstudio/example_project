@@ -58,34 +58,36 @@ class ASSelectStartDateDialogState extends State<ASSelectStartDateDialog> {
       ASCalendarPanelSwitcherOption<_ASButtonOptions>(
         title: AppLocalizations.of(context).today,
         onChanged: _onSelectedOption,
-        isActive: _isActive(_ASButtonOptions.today),
+        isActive: _isEqualDates(first: _mappedOption[_ASButtonOptions.today], second: widget.initialDate),
         type: _ASButtonOptions.today,
       ),
       ASCalendarPanelSwitcherOption<_ASButtonOptions>(
         title: AppLocalizations.of(context).nextMonday,
         onChanged: _onSelectedOption,
-        isActive: _isActive(_ASButtonOptions.nextMonday),
+        isActive: _isEqualDates(first: _mappedOption[_ASButtonOptions.nextMonday], second: widget.initialDate),
         type: _ASButtonOptions.nextMonday,
       ),
       ASCalendarPanelSwitcherOption<_ASButtonOptions>(
         title: AppLocalizations.of(context).nextTuesday,
         onChanged: _onSelectedOption,
-        isActive: _isActive(_ASButtonOptions.nextTuesday),
+        isActive: _isEqualDates(first: _mappedOption[_ASButtonOptions.nextTuesday], second: widget.initialDate),
         type: _ASButtonOptions.nextTuesday,
       ),
       ASCalendarPanelSwitcherOption<_ASButtonOptions>(
         title: AppLocalizations.of(context).afterOneWeek,
         onChanged: _onSelectedOption,
-        isActive: _isActive(_ASButtonOptions.afterOneWeek),
+        isActive: _isEqualDates(first: _mappedOption[_ASButtonOptions.afterOneWeek], second: widget.initialDate),
         type: _ASButtonOptions.afterOneWeek,
       ),
     ];
   }
 
-  bool _isActive(_ASButtonOptions type) {
-    return _mappedOption[type]!.year == widget.initialDate.year &&
-        _mappedOption[type]!.month == widget.initialDate.month &&
-        _mappedOption[type]!.day == widget.initialDate.day;
+  bool _isEqualDates({
+    required DateTime? first,
+    required DateTime? second,
+  }) {
+    if (first == null && second == null) return false;
+    return first?.year == second?.year && first?.month == second?.month && first?.day == second?.day;
   }
 
   DateTime _nextDayWeek({required int weekday}) {
@@ -97,8 +99,15 @@ class ASSelectStartDateDialogState extends State<ASSelectStartDateDialog> {
   }
 
   void _onSelectedOption(_ASButtonOptions option) {
+    _options = _options.map((e) => e.copyWith(isActive: e.type == option)).toList();
     _selectedDate.value = _mappedOption[option]!;
     _focusedDate.value = DateTime(_mappedOption[option]!.year, _mappedOption[option]!.month, 2);
+  }
+
+  void _findOrDisable(DateTime selectedDate) {
+    _options = _options
+        .map((e) => e.copyWith(isActive: _isEqualDates(first: _mappedOption[e.type], second: selectedDate)))
+        .toList();
   }
 
   @override
@@ -115,7 +124,11 @@ class ASSelectStartDateDialogState extends State<ASSelectStartDateDialog> {
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                ASCalendarPanelSwitchers(options: _options),
+                ValueListenableBuilder(
+                    valueListenable: _selectedDate,
+                    builder: (BuildContext context, value, Widget? child) {
+                      return ASCalendarPanelSwitchers(key: ValueKey(value), options: _options);
+                    }),
                 const SizedBox(
                   height: 25,
                 ),
@@ -267,25 +280,37 @@ class ASSelectStartDateDialogState extends State<ASSelectStartDateDialog> {
   }
 
   Widget _buildRegularDate(DateTime day) {
-    return Container(
-      width: 30,
-      alignment: Alignment.center,
-      padding: const EdgeInsets.all(5),
-      child: Text(
-        day.day.toString(),
-        style: ASTextStyles.calendarDaysTextStyle,
+    return GestureDetector(
+      onTap: () {
+        _findOrDisable(day);
+        _selectedDate.value = day;
+      },
+      child: Container(
+        width: 30,
+        alignment: Alignment.center,
+        padding: const EdgeInsets.all(5),
+        child: Text(
+          day.day.toString(),
+          style: ASTextStyles.calendarDaysTextStyle,
+        ),
       ),
     );
   }
 
   Widget _buildTodayDate(DateTime day) {
-    return Container(
-      width: 30,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(width: 1, color: ASColors.primary)),
-      child: Text(
-        day.day.toString(),
-        style: ASTextStyles.calendarDaysTextStyle.copyWith(color: ASColors.primary),
+    return GestureDetector(
+      onTap: () {
+        _findOrDisable(day);
+        _selectedDate.value = day;
+      },
+      child: Container(
+        width: 30,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(width: 1, color: ASColors.primary)),
+        child: Text(
+          day.day.toString(),
+          style: ASTextStyles.calendarDaysTextStyle.copyWith(color: ASColors.primary),
+        ),
       ),
     );
   }
